@@ -1,0 +1,288 @@
+{
+	"success": true,
+	"data": {
+		"collections": [
+			{
+				"id": 1,
+				"scope_type": 1,
+				"values": [
+					{
+						"title": "Arabic",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/banner/banner-01.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/about-us",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+						
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/banner/banner-02.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/home-slider",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/slider/slide-2.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/home-slider",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/slider/slide-1.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/home-slider",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					}
+				]
+			},
+			{
+				"id": 2,
+				"scope_type": 2,
+				"title": "Our Categories",
+				"values": [
+					{
+						"id": "1",
+						"title": "Bouillon",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/categories/bouillon.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/corn-oil",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "Fats",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/categories/fats.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/olive-oil",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "Horeca",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/categories/horeca.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/Veg-ghee",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "Mayonaise",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/categories/mayonaise.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/mayonnaise",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "Oil",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/categories/oil.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/shortening",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "Sauces",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/categories/sauces.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/sauce",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					}
+				]
+			},
+			{
+				"id": 3,
+				"scope_type": 3,
+				"title": "Recipes",
+				"values": [
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Delicious heart-healthy recipes by Cocina",
+						"cta_action": "https://mazola.com/Cocina",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-01.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Mazola Salad Dressing Recipes Sheet",
+						"cta_action": "https://mazola.com/salad",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-02.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Sesame Noodle Stir Fry | Mazola Corn Oil | MEGFORIT",
+						"cta_action": "https://mazola.com/corn-oil",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-03.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Delicious heart-healthy recipes by Cocina",
+						"cta_action": "https://mazola.com/heart",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-04.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Sesame Noodle Stir Fry | Mazola Corn Oil | MEGFORIT",
+						"cta_action": "https://mazola.com/megforit",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-05.jpg",
+						"cta_type": 1,
+						"background_color": "#237e"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Sesame Noodle Stir Fry | Mazola Corn Oil | MEGFORIT",
+						"cta_action": "https://mazola.com/megforit",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-06.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Sesame Noodle Stir Fry | Mazola Corn Oil | MEGFORIT",
+						"cta_action": "https://mazola.com/megforit",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-07.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Sesame Noodle Stir Fry | Mazola Corn Oil | MEGFORIT",
+						"cta_action": "https://mazola.com/megforit",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-08.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"cta_title": "Sesame Noodle Stir Fry | Mazola Corn Oil | MEGFORIT",
+						"cta_action": "https://mazola.com/megforit",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/recipes/recipes-09.jpg",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					}
+				]
+			},
+			{
+				"id": 4,
+				"scope_type": 4,
+				"title": "Mazola Social",
+				"values": [
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s1.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s2.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s3.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s4.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s5.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s6.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s7.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s8.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					},
+					{
+						"title": "",
+						"description": "",
+						"image_path": "https://mazola-api-v1.herokuapp.com/uploads/social/s9.jpg",
+						"cta_title": "View More",
+						"cta_action": "https://mazola.com/social",
+						"cta_type": 1,
+						"background_color": "#FFFFFF"
+					}
+				]
+			}
+		]
+	}
+}
