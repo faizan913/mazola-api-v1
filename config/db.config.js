@@ -9,12 +9,12 @@ const mysql = require('mysql');
 }); */
 
 const dbConn = mysql.createPool({
-  connectionLimit : 100, //important
-  host     : 'us-cdbr-east-04.cleardb.com',
-  user     : 'b62bbe69043494',
-  password : 'b6a49552',
-  database : 'heroku_b92fbf819f2124c',
-  debug    :  false
+  connectionLimit: 100, //important
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PWD,
+  database: process.env.DB_NAME,
+  debug: false
 });
 
 /* dbConn.connect(function(err) {
@@ -22,8 +22,8 @@ const dbConn = mysql.createPool({
   console.log("Database Connected!");
 }); */
 
-dbConn.getConnection(function(err, connection) {
-  if (err) throw err; 
-  console.log("Database Connected!" +connection);
+dbConn.getConnection(function (err, connection) {
+  if (err) throw err;
+  console.log("Database Connected!" + connection);
 })
 module.exports = dbConn
