@@ -12,6 +12,13 @@ const app = express() // create express app
 const port = process.env.PORT||4000
 app.use(express.json())
 app.use(cors())
+
+// health check
+app.get("/health", (req, res) => {
+  res.json({ status: "up" })
+})
+
+// register other routes
 app.use('/api/v1', categoryRoutes)
 app.use('/api/v1', productRoutes)
 app.use('/api/v1', videoRoutes)
