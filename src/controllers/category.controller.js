@@ -7,7 +7,7 @@ exports.findAll = (req, res)=> {
         if (err){res.send(err)}
         else{
             if(categories.length>0){
-                res.send({"success": true ,'data':{categories}})
+                res.send({"success": true ,'data':categories})
             } 
             else{
                 res.status(404).send({ error:false, message: 'No record found'})
