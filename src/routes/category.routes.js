@@ -1,22 +1,38 @@
-const express = require('express')
-const router = express.Router()
+const { authJwt } = require("../middleware");
 const categoryController = require('../controllers/category.controller');
 
 // Retrieve all category
-router.get('/categories', categoryController.findAll)
+//router.get('/categories', [authJwt.verifyToken,authJwt.isAdmin], categoryController.findAll)
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+      res.header(
+        "Access-Control-Allow-Headers",
+        "x-access-token, Origin, Content-Type, Accept"
+      );
+      next();
+    });
+  
+  
+    app.get(
+      "/api/v1/categories",
+      [authJwt.verifyToken],
+      categoryController.findAll
+    );
+    app.get(
+      "/api/v1/categories/:id",
+      [authJwt.verifyToken],
+      categoryController.findById
+    );
+    
+    app.delete( "/api/v1/categories/:id",
+    [authJwt.verifyToken,authJwt.isAdmin],
+    categoryController.deleteByID
+    )
+    
+   
+  }
 
-router.get('/categories/:id/products', categoryController.findAllProductByCatId)
-
-// Create a new category
-router.post('/categories', categoryController.create)
-
-// Retrieve a single category with id
-router.get('/categories/:id', categoryController.findById)
-
-// Update a category with id
-router.put('/categories/:id', categoryController.update)
 
 // Delete a category
-router.delete('/categories/:id', categoryController.delete)
+//router.delete('/categories/:id', categoryController.delete)
 
-module.exports = router

@@ -77,8 +77,8 @@ exports.update = (req, res) =>{
 }
 
 
-exports.delete = (req, res) =>{
-  Category.delete( req.params.id, (err, category) =>{
+exports.deleteByID = (req, res) =>{
+  Category.deleteByID( req.params.id, (err, category) =>{
     if (err)
     res.send(err);
     res.json({ success:true, message: 'Category  deleted', data:  category});

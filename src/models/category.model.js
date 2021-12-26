@@ -99,8 +99,10 @@ Category.update = (id, category, result) => {
         }
     }); 
 };
-Category.delete = (id, result)=>{
-     dbConn.query("DELETE FROM categories WHERE id = ?", [id],  (err, res)=> {
+Category.deleteByID = (id, result)=>{
+    const query = "DELETE FROM categories WHERE id ="+id
+    console.log(query)
+     dbConn.query(query,  (err, res)=> {
         if(err) {
             result(null, err);
         }

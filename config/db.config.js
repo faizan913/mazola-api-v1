@@ -1,5 +1,14 @@
 const mysql = require('mysql');
 
+/* const dbConn = mysql.createPool({
+  connectionLimit: 100, //important
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'mazola-api',
+  debug: false
+}); */
+
 //Create db connection
 /* const dbConn = mysql.createConnection({
   host     : 'eu-cdbr-west-01.cleardb.com',
@@ -16,14 +25,8 @@ const dbConn = mysql.createPool({
   database: process.env.DB_NAME,
   debug: false
 });
-
-/* dbConn.connect(function(err) {
-  if (err) throw err;
-  console.log("Database Connected!");
-}); */
-
 dbConn.getConnection(function (err, connection) {
   if (err) throw err;
-  console.log("Database Connected!" + connection);
+  console.log("Database Connected!");
 })
 module.exports = dbConn
