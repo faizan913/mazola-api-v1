@@ -7,7 +7,7 @@ const mysql = require('mysql');
   password: '',
   database: 'mazola-api',
   debug: false
-}); */
+});
 
 //Create db connection
 /* const dbConn = mysql.createConnection({

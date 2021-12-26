@@ -4,15 +4,14 @@ const dbConn = require('../../config/db.config');
 const Category = function(category){
     this.active          = category.active
     this.parent_id       = category.parent_id
-    this.refrence_type   = category.refrence_type
-    this.translation_type= category.translation_type
+    this.title           = category.title
+    this.description     = category.description
     this.locale          = category.locale
-    this.value           = category.value
     this.refrence_type   = category.refrence_type,
     this.created_at      = new Date()
     this.updated_at      = new Date()
 }
-Category.create = function (newCat, result) {   
+Category.create = function (newCat, result) {  
     const categoryData ={
         active :newCat.active,
         parent_id: newCat.parent_id,
@@ -25,24 +24,36 @@ Category.create = function (newCat, result) {
             result(err, null);
         }
         else{
-            //result(null, res.insertId)
-            const translationData ={
-                translation_type :newCat.translation_type,
-                refrence_type: newCat.refrence_type,
-                locale: newCat.locale,
-                value: newCat.value,
-                reference_id:res.insertId,
-                created_at:new Date(),
-                updated_at: new Date()
+            const transData = [
+                {   translation_type: 'title',
+                    reference_type: 'categories',
+                    locale: newCat.locale,
+                    value: newCat.title,
+                    reference_id: res.insertId,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                },
+                {  
+                    translation_type: 'description',
+                    reference_type: 'categories',
+                    locale: newCat.locale,
+                    value: newCat.description,
+                    reference_id: res.insertId,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                }
+            ]
+            for(let i = 0; i < transData.length; i++){
+                let post  = transData[i]
+                dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
+                    if (err) {
+                        result(err, null);
+                    }
+                    else {
+                        result(null, res.affectedRows)
+                    }
+                });
             }
-            dbConn.query("INSERT INTO translations set ?", translationData, function (err, res) {
-                if(err) {
-                    result(err, null);
-                }
-                else{
-                    result(null, res.insertId)
-                }
-            }) 
         }
     })           
 }

@@ -21,7 +21,10 @@ module.exports = function(app) {
       "/api/v1/categories/:id",
       categoryController.findById
     );
-    
+    app.post( "/api/v1/categories",
+    [authJwt.verifyToken,authJwt.isAdmin],
+    categoryController.create
+    )
     app.delete( "/api/v1/categories/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
     categoryController.deleteByID
