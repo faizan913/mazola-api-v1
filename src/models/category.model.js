@@ -50,7 +50,7 @@ Category.create = function (newCat, result) {
                         result(err, null);
                     }
                     else {
-                        result(null, res.affectedRows)
+                        result(null, res)
                     }
                 });
             }
@@ -95,30 +95,57 @@ Category.findAll =  (lang,result)=> {
 }
 
 Category.update = (id, category, result) => {
+   
   dbConn.query("UPDATE categories SET active=?,parent_id=? WHERE id = ?", [category.active,category.parent_id, id],  (err, res) =>{
         if(err) {
-            result(null, err)
+            return result(null, err)
         }else{  
-            dbConn.query("UPDATE translations SET translation_type=?,refrence_type=? ,locale=? ,value=? WHERE reference_id = ?", 
-            [category.translation_type,category.refrence_type,category.locale,category.value, id],  (err, res) =>{
-                if(err) {
-                    result(null, err)
-                }else{   
-                    result(null, res);
+            const transData = [
+                {   translation_type: 'title',
+                    reference_type: 'categories',
+                    locale: category.locale,
+                    value: category.title,
+                    reference_id: id,
+                },
+                {  
+                    translation_type: 'description',
+                    reference_type: 'categories',
+                    locale: category.locale,
+                    value: category.description,
+                    reference_id: id,
+                    
                 }
-            })
+            ]
+            for(let i = 0; i < transData.length; i++){
+                let update  = transData[i]
+                dbConn.query('update translations SET translation_type=?,reference_type=?,locale=?,value=? WHERE reference_id = ?', [update.translation_type,update.reference_type,update.locale,update.value,id], function(err, res) {
+                    if (err) {
+                        return result(err, null);
+                    }
+                    else {
+                        result(null, res.affectedRows)
+                    }
+                });
+            }
         }
     }); 
 };
 Category.deleteByID = (id, result)=>{
     const query = "DELETE FROM categories WHERE id ="+id
-    console.log(query)
      dbConn.query(query,  (err, res)=> {
         if(err) {
-            result(null, err);
+            return result(null, err);
         }
         else{
-            result(null, res);
+            const trans = `DELETE FROM translations WHERE reference_id =${id} AND reference_type= "categories"`
+            dbConn.query(trans,  (err, res)=> {
+                if(err) {
+                   return  result(null, err);
+                }
+                else{
+                    result(null, res);
+                }
+            })
         }
     })
 } 

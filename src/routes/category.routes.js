@@ -25,6 +25,10 @@ module.exports = function(app) {
     [authJwt.verifyToken,authJwt.isAdmin],
     categoryController.create
     )
+    app.patch( "/api/v1/categories/:id",
+    [authJwt.verifyToken,authJwt.isAdmin],
+    categoryController.update
+    )
     app.delete( "/api/v1/categories/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
     categoryController.deleteByID

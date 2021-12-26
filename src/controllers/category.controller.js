@@ -22,9 +22,10 @@ exports.create = (req, res) =>{
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Category.create(newCat, (err, category) =>{
-            if (err)
-            res.send(err);
+            if (err){ res.send(err);}
+           else{
             res.json({success:true,message:"Category added successfully!",data:newCat});
+           }
         });
     }
 }
@@ -64,13 +65,18 @@ exports.findById = (req, res)=> {
 
 
 exports.update = (req, res) =>{
+    const newCat = new Category(req.body)
+    newCat.locale = (req.headers.locale)
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Category.update(req.params.id, new Category(req.body), (err, category) =>{
-            if (err)
-            res.send(err)
-            res.json({ success:true, message: 'Category successfully updated' });
+        Category.update(req.params.id, newCat, (err, category) =>{
+            if (err){
+                return res.send(err)
+            }
+            else{
+             res.status(200).send({ success:true, message: 'Category successfully updated' });
+            }
         })
     }
   
@@ -79,8 +85,8 @@ exports.update = (req, res) =>{
 
 exports.deleteByID = (req, res) =>{
   Category.deleteByID( req.params.id, (err, category) =>{
-    if (err)
-    res.send(err);
+    if (err){return res.send(err);}
+    
     res.json({ success:true, message: 'Category  deleted', data:  category});
   })
 }

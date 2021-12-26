@@ -25,7 +25,6 @@ isAdmin = (req, res, next) => {
   User.findByID(req.userId,(err, user) => {
     if (err) { res.send(err) }
     else {
-      console.log(user[0].role)
         if (user[0].role === 'admin') {
           next()
           return;
