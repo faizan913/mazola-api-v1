@@ -15,12 +15,10 @@ module.exports = function(app) {
   
     app.get(
       "/api/v1/categories",
-      [authJwt.verifyToken],
       categoryController.findAll
     );
     app.get(
       "/api/v1/categories/:id",
-      [authJwt.verifyToken],
       categoryController.findById
     );
     
