@@ -20,7 +20,7 @@ User.create =   (user, result)=> {
         updated_at: new Date()
     }
 
-    dbConn.query("INSERT INTO mazola_user set ?", userData, function (err, res) {
+    dbConn.query("INSERT INTO user set ?", userData, function (err, res) {
         if (err) {
             result(err, null);
         }
@@ -30,7 +30,7 @@ User.create =   (user, result)=> {
     })
 }
 User.findByUserName =  (username,email, result)=> {
-    const query = `SELECT * from mazola_user where username= '${username}' OR email= '${email}' `
+    const query = `SELECT * from user where username= '${username}' OR email= '${email}' `
     dbConn.query(query,  (err, res)=> {             
         if(err) {
             result(err, null);
@@ -42,7 +42,7 @@ User.findByUserName =  (username,email, result)=> {
 } 
 
 User.verifyUser =  (username, result)=> {
-    const query = `SELECT * from mazola_user where username= '${username}' `
+    const query = `SELECT * from user where username= '${username}' `
     console.log(query)
     dbConn.query(query,  (err, res)=> {             
         if(err) {
@@ -54,7 +54,7 @@ User.verifyUser =  (username, result)=> {
     })   
 } 
 User.findByID =  (id, result)=> {
-    const query = `SELECT * from mazola_user where id= '${id}' `
+    const query = `SELECT * from user where id= '${id}' `
     console.log(query)
     dbConn.query(query,  (err, res)=> {             
         if(err) {
