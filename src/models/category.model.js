@@ -47,10 +47,10 @@ Category.create = function (newCat, result) {
                 let post  = transData[i]
                 dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
                     if (err) {
-                        result(err, null);
+                        return result(err, null);
                     }
                     else {
-                        result(null, res)
+                        return result(null, res)
                     }
                 });
             }

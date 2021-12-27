@@ -5,9 +5,11 @@ const categoryController = require('../controllers/category.controller');
 //router.get('/categories', [authJwt.verifyToken,authJwt.isAdmin], categoryController.findAll)
 module.exports = function(app) {
     app.use(function(req, res, next) {
-      res.header(
-        "Access-Control-Allow-Headers",
-        "x-access-token, Origin, Content-Type, Accept"
+      res.header({
+        "Access-Control-Allow-Headers":"x-access-token, Origin, Content-Type, Accept",
+        "Content-Range":"items 0-24/900"
+      }
+        
       );
       next();
     });

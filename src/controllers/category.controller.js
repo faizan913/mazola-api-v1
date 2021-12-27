@@ -22,9 +22,9 @@ exports.create = (req, res) =>{
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Category.create(newCat, (err, category) =>{
-            if (err){ res.send(err);}
+            if (err){ return res.send(err);}
            else{
-            res.json({success:true,message:"Category added successfully!",data:newCat});
+            res.status(201).send({success:true,message:"Category added successfully!",data:newCat});
            }
         });
     }
