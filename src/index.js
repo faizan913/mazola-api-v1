@@ -13,9 +13,12 @@ const port = process.env.PORT||4000
 app.use(express.json())
 app.use(cors())
 
-//Authentication
+//Authentication for v1
 require('./routes/user.routes')(app)
 require('./routes/category.routes')(app)
+//Authentication for v2
+require('./v2/routes/user.routes')(app)
+require('./v2/routes/category.routes')(app)
 // health check
 app.get("/health", (req, res) => {
   res.json({ status: "up" })
