@@ -73,9 +73,8 @@ exports.update = (req, res) =>{
         Category.update(req.params.id, newCat, (err, category) =>{
             if (err){
                 return res.send(err)
-            }
-            else{
-             res.status(200).send({ success:true, message: 'Category successfully updated' });
+            }else{
+                 return res.status(200).send({ success:true, message: 'Category successfully updated' });
             }
         })
     }

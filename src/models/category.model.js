@@ -116,14 +116,16 @@ Category.update = (id, category, result) => {
                     
                 }
             ]
-            for(let i = 0; i < transData.length; i++){
+           for(let i = 0; i < transData.length; i++){
                 let update  = transData[i]
-                dbConn.query('update translations SET translation_type=?,reference_type=?,locale=?,value=? WHERE reference_id = ?', [update.translation_type,update.reference_type,update.locale,update.value,id], function(err, res) {
+                let updateQuery  = "update translations SET value='"+update.value+"' WHERE reference_id = "+id+ " AND  reference_type = 'categories' AND locale = '"+update.locale+"' AND translation_type='"+update.translation_type+"' " 
+ 
+                dbConn.query(updateQuery, function(err, res) {
                     if (err) {
                         return result(err, null);
                     }
                     else {
-                        result(null, res.affectedRows)
+                        return result(null, res.affectedRows)
                     }
                 });
             }
