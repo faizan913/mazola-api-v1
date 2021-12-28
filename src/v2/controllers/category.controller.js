@@ -86,6 +86,6 @@ exports.deleteByID = (req, res) =>{
   Category.deleteByID( req.params.id, (err, category) =>{
     if (err){return res.send(err);}
     
-    res.json({ success:true, message: 'Category  deleted', data:  category});
+    res.json({ success:true, message: 'Category  deleted'});
   })
 }
