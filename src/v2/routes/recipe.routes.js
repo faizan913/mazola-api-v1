@@ -1,6 +1,6 @@
 
 const { authJwt } = require("../middleware");
-const recipeController = require('../controllers/cms.controller');
+const recipeController = require('../controllers/recipe.controller');
 
 //router.post('/cms',fileUpload.single('thumbnail') ,cmsController.create)
 
