@@ -7,7 +7,7 @@ exports.findAll = (req, res)=> {
     if (err){res.send(err)}
     else{
         if(videos.length>0){
-            res.send({"success": true ,'data':{videos}})
+            res.status(200).send(videos)
         } 
         else{
             res.status(404).send({ error:false, message: 'No recort found'})
@@ -38,7 +38,7 @@ exports.findAll = (req, res)=> {
         if (err){res.send(err)}
          else{
             if(video.length>0){
-                res.send({"success": true ,'data':{'video':video[0]}})
+                res.status(200).send(video[0])
             } 
             else{
                 res.status(404).send({ error:false, message: 'No recort found'})

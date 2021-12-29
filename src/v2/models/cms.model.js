@@ -58,10 +58,10 @@ CMS.findById =  (locale,id, result)=> {
     const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "title" and t.locale = '+locale+')as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "description" and t.locale = '+locale+')as "description"  , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "content" and t.locale = '+locale+')as "content",c.featured_image,c.type,c.template,c.meta_url FROM cms c where c.id='+id
     dbConn.query(query,  (err, res)=> {             
         if(err) {
-            result(err, null);
+           return result(err, null);
         }
         else{
-            result(null, res);
+            return  result(null, res);
         }
     })   
 }  

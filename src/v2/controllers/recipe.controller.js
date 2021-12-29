@@ -7,7 +7,7 @@ exports.findAll = (req, res)=> {
     if (err){res.send(err)}
     else{
         if(recipes.length>0){
-            res.send({"success": true ,'data':{recipes}})
+            res.status(200).send(recipes)
         }else{
             res.status(404).send({ error:false, message: 'No video found'})
         }}
@@ -37,7 +37,7 @@ exports.findAll = (req, res)=> {
         if (err){res.send(err)}
     else{
         if(recipe.length>0){
-            res.send({"success": true ,'data':{'recipe':recipe[0]}})
+            res.send(recipe[0])
         }else{
             res.status(404).send({ error:false, message: 'No record found'})
         }}

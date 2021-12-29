@@ -15,10 +15,16 @@ app.use(cors())
 
 //Authentication for v1
 require('./routes/user.routes')(app)
-require('./routes/category.routes')(app)
-//Authentication for v2
 require('./v2/routes/user.routes')(app)
+
+//v2
+require('./routes/category.routes')(app)
 require('./v2/routes/category.routes')(app)
+require('./v2/routes/cms.routes')(app)
+require('./v2/routes/recipe.routes')(app)
+require('./v2/routes/product.routes')(app)
+require('./v2/routes/news.routes')(app)
+require('./v2/routes/video.routes')(app)
 // health check
 app.get("/health", (req, res) => {
   res.json({ status: "up" })

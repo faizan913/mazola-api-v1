@@ -7,7 +7,7 @@ exports.findAll = (req, res)=> {
         if (err) { res.send(err) 
         } else {
             if (cms.length > 0) {
-                res.send({"success": true ,'data':{cms}})
+                res.status(200).send(cms)
             } else {
                 res.status(404).send({ success: false, message: 'No records found' })
             }
@@ -32,15 +32,17 @@ exports.findAll = (req, res)=> {
 
 
  exports.findById = (req, res)=> {  
+    
     var locale = (JSON.stringify(req.headers['locale']))
     let lang = (locale === undefined) ? "\"en\"" :locale  
+    console.log(lang,req.params.id)
     CMS.findById(lang,req.params.id, (err, cms)=> {
         if (err) { res.send(err) 
         } else {
             if (cms.length > 0) {
-                res.send({ success: true, 'data': {'cms':cms[0]} })
+                return res.status(200).send(cms[0])
             } else {
-                res.send({ error: false, message: 'No records found' })
+                return res.send({ error: false, message: 'No records found' })
             }
         }
     })

@@ -8,7 +8,7 @@ exports.findAll = (req, res)=> {
     if (err){res.send(err)}
     else{
         if(products.length>0){
-            res.send({"success": true ,'data':{products}})
+            res.status(200).send(products)
         } 
         else{
             res.status(404).send({ error:false, message: 'No product found'})
@@ -41,7 +41,7 @@ exports.create = (req, res) =>{
         if (err) {res.send(err)}
         else{
             if(product.length>0){
-                res.send({"success": true ,'data':{'product':product[0]}})
+                res.status(200).send(product[0])
             }else{
                 res.status(404).send({ error:false, message: 'No records found'})
             }

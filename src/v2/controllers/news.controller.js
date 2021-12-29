@@ -7,7 +7,7 @@ exports.findAll = (req, res) => {
         if (err) { res.send(err) }
         else {
             if (news.length > 0) {
-                res.send({ success: true, 'data': {news} })
+                res.status(200).send(news)
             } else {
                 res.send({ error: false, message: 'No records found' })
             }
@@ -38,7 +38,7 @@ exports.findById = (req, res) => {
         if (err) { res.send(err) }
         else {
             if (news.length > 0) {
-                res.send({ success: true, 'data': {'news':news[0]} })
+                res.send(news[0])
             } else {
                 res.status(404).send({ error: false, message: 'No records found ' })
             }

@@ -7,8 +7,8 @@ const mysql = require('mysql');
   password: '',
   database: 'mazola-api',
   debug: false
-});  */
-
+}); 
+ */
 //Create db connection
 /* const dbConn = mysql.createConnection({
   host     : 'eu-cdbr-west-01.cleardb.com',
@@ -17,7 +17,7 @@ const mysql = require('mysql');
   database : 'heroku_c449ea1974c8140'
 }); */
 
-const dbConn = mysql.createPool({
+ const dbConn = mysql.createPool({
   connectionLimit: 100, //important
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

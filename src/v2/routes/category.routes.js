@@ -1,8 +1,6 @@
 const { authJwt } = require("../middleware");
 const categoryController = require('../controllers/category.controller');
 
-// Retrieve all category
-//router.get('/categories', [authJwt.verifyToken,authJwt.isAdmin], categoryController.findAll)
 module.exports = function(app) {
     app.use(function(req, res, next) {
       res.header({
