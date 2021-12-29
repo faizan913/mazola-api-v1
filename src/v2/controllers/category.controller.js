@@ -55,7 +55,7 @@ exports.findById = (req, res)=> {
         else{
             if(category.length>0){
                 
-                res.send(category)
+                res.status(200).json(category[0])
             } 
             else{
                 res.status(404).send({ error:false, message: 'No record found'})

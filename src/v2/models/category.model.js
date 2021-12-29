@@ -89,6 +89,7 @@ Category.findAll =  (lang,result)=> {
             result(null, err)
         }
         else{
+            console.log(res)
             result(null, res)
         }
     })   
