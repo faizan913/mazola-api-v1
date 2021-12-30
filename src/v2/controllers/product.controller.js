@@ -1,4 +1,3 @@
-const e = require('express');
 const Product = require('../models/product.model');
 
 exports.findAll = (req, res)=> {
@@ -19,7 +18,6 @@ exports.findAll = (req, res)=> {
 exports.create = (req, res) =>{
     const newProducts = new Product(req.body)
     console.log(newProducts )
-    return
     newProducts.locale = (req.headers.locale)
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });

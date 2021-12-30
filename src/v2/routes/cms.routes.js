@@ -1,5 +1,5 @@
 
-const fileUpload = require('../helper/file-uploader')
+//const fileUpload = require('../helper/file-uploader')
 
 const { authJwt } = require("../middleware");
 const cmsController = require('../controllers/cms.controller');

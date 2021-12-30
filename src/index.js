@@ -12,7 +12,29 @@ const app = express() // create express app
 const port = process.env.PORT||4000
 app.use(express.json())
 app.use(cors())
+headers= {
+  "Access-Control-Allow-Headers" : "*",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,POST,PUT"
+}
+app.use(function(req, res, next) {
+  res.header(headers);  
+  next();
+});
 
+// Add headers
+/* app.use( cors({
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+ 
+})); */
 //Authentication for v1
 require('./routes/user.routes')(app)
 require('./v2/routes/user.routes')(app)

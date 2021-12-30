@@ -1,11 +1,7 @@
 //....................
-
-//const fileUpload = require('../helper/file-uploader')
-
-const { authJwt } = require("../middleware");
-const productController = require('../controllers/product.controller');
-
-//router.post('/cms',fileUpload.single('thumbnail') ,cmsController.create)
+const fileUpload = require('../../helper/file-uploader')
+const { authJwt } = require("../middleware")
+const productController = require('../controllers/product.controller')
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
@@ -26,11 +22,13 @@ module.exports = function(app) {
       "/api/v2/products/:id",
       productController.findById
     );
-    /* app.post( "/api/v2/cms",
-    [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.create
+   
+   app.post( "/api/v2/cms",
+    [authJwt.verifyToken,authJwt.isAdmin], 
+    fileUpload.single('images'),
+    productController.create
     )
-    app.put( "/api/v2/cms/:id",
+    /*  app.put( "/api/v2/cms/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
     cmsController.update)
 
