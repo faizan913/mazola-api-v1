@@ -17,7 +17,8 @@ exports.findAll = (req, res)=> {
  
 exports.create = (req, res) =>{
     const newCat = new Category(req.body)
-    newCat.locale = (req.headers.locale)
+    var locale = (JSON.stringify(req.headers['locale']))
+    newCat.locale= (locale === undefined) ? "en" :locale 
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
@@ -66,7 +67,8 @@ exports.findById = (req, res)=> {
 
 exports.update = (req, res) =>{
     const newCat = new Category(req.body)
-    newCat.locale = (req.headers.locale)
+    var locale = (JSON.stringify(req.headers['locale']))
+    newCat.locale= (locale === undefined) ? "en" :locale 
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{

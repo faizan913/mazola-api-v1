@@ -17,14 +17,14 @@ const mysql = require('mysql');
   database : 'heroku_c449ea1974c8140'
 }); */
 
-const dbConn = mysql.createPool({
+ const dbConn = mysql.createPool({
   connectionLimit: 100, //important
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PWD,
   database: process.env.DB_NAME,
   debug: false
-});  
+}); 
 dbConn.getConnection(function (err, connection) {
   if (err) throw err;
   console.log("Database Connected!");

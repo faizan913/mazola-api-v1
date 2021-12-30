@@ -17,15 +17,15 @@ exports.findAll = (req, res)=> {
  
 exports.create = (req, res) =>{
     const newProducts = new Product(req.body)
-    console.log(newProducts )
-    newProducts.locale = (req.headers.locale)
+    let locale = (JSON.stringify(req.headers['locale']))
+    newProducts.locale= (locale === undefined) ? "en" :locale 
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Product.create(newProducts, (err, product) =>{
-            if (err){ res.send(err)}
+            if (err){ return res.send(err)}
            else{
-                res.json({success:true,message:"Product added successfully!",data:product})
+               return  res.status(201).send({success:true,message:"Product added successfully!"})
            }
         });
     }
@@ -47,27 +47,30 @@ exports.create = (req, res) =>{
     })
 }
 
-/*
+
 exports.update = (req, res) =>{
+    const newProducts = new Product(req.body)
+    let locale = (JSON.stringify(req.headers['locale']))
+    newProducts.locale= (locale === undefined) ? "en" :locale 
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Category.update(req.params.id, new Category(req.body), (err, category) =>{
-            if (err)
-            res.send(err)
-            res.json({ success:true, message: 'Category successfully updated' });
+        Product.update(req.params.id, newProducts, (err, product) =>{
+            if (err){return res.send(err)
+            }else{
+            return res.status(200).send({ success:true, message: 'Product updated' });
+            }
         })
     }
   
-}*/
+}
 
-
-exports.delete = (req, res) =>{
-  Product.delete( req.params.id, (err, product) =>{
+exports.deleteByID = (req, res) =>{
+  Product.deleteByID( req.params.id, (err, product) =>{
     if (err){res.send(err)}
     else{
         if(product.affectedRows>0){
-        res.json({ success:true, message: 'Product  deleted', data:  product})
+        res.status(200).send({ success:true, message: 'Product  deleted'})
         }else{
             res.json({ error:false, message: 'No records found'})
         }

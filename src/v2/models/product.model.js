@@ -2,32 +2,30 @@ const dbConn = require('../../../config/db.config');
 
 
 const Product = function (product) {
-    this.category_id = product.category_id
-    this.uom = product.uom
-    this.size = product.size
-    this.price = product.price
-    this.images = product.images
-    this.discounted_price = product.discounted_price
-    this.active = product.active
-    this.archived = product.archived
-    this.title = product.title
-    this.description = product.description
-    /* this.refrence_type = product.refrence_type
-    this.translation_type = product.translation_type
-    this.locale = product.locale
-    this.value = product.value
-    this.refrence_type = product.refrence_type */
-    this.created_at = new Date()
-    this.updated_at = new Date()
+    this.category_id=product.category_id,
+    this.title=product.title,
+    this.short_description=product.short_description,
+    this.long_description=product.long_description,
+    this.uom =product.uom,
+    this.size = product.size,
+    this.price =product.price,
+    this.images=product.images,
+    this.featured_image=product.featured_image,
+    this.discounted_price =product.discounted_price,
+    this.active=product.active,
+    this.archived =product.archived,
+    this.created_at= new Date(),
+    this.updated_at= new Date()
 }
 Product.create = function (product, result) {
-    
+    let imageJson = JSON.stringify(product.images)
     const productData = {
         category_id:product.category_id,
         uom :product.uom,
         size : product.size,
         price : product.price,
-        images: product.images,
+        images: imageJson,
+        featured_image:product.featured_image,
         discounted_price :product.discounted_price,
         active : product.active,
         archived : product.archived,
@@ -43,7 +41,7 @@ Product.create = function (product, result) {
            
             const transData = [
                 {   translation_type: 'title',
-                    reference_type: 'product',
+                    reference_type: 'products',
                     locale: product.locale,
                     value: product.title,
                     reference_id: res.insertId,
@@ -51,10 +49,19 @@ Product.create = function (product, result) {
                     updated_at: new Date()
                 },
                 {  
-                    translation_type: 'description',
-                    reference_type: 'product',
+                    translation_type: 'short_description',
+                    reference_type: 'products',
                     locale: product.locale,
-                    value: product.description,
+                    value: product.short_description,
+                    reference_id: res.insertId,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                },
+                {  
+                    translation_type: 'long_description',
+                    reference_type: 'products',
+                    locale: product.locale,
+                    value: product.long_description,
                     reference_id: res.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
@@ -99,35 +106,69 @@ Product.findAll = (lang,result) => {
     })
 }
 
-/* Product.update = (id, products, result) => {
-    console.log(category)
-  dbConn.query("UPDATE categories SET active=?,parent_id=? WHERE id = ?", [category.active,category.parent_id, id],  (err, res) =>{
+Product.update = (id, product, result) => {
+    let imageJson = JSON.stringify(product.images)
+    console.log(product)
+    dbConn.query("UPDATE products SET category_id=?,featured_image=? ,images=?,uom=?,size=? ,price=?,discounted_price=?,active=? WHERE id = ?", [product.category_id,product.featured_image,imageJson,product.uom,product.size,product.price,product.discounted_price,product.active, id],  (err, res) =>{
+          if(err) {
+              return result(null, err)
+          }else{  
+              const transData = [
+                {   translation_type: 'title',
+                    reference_type: 'products',
+                    locale: product.locale,
+                    value: product.title,
+                    reference_id: id
+                },
+                {  
+                    translation_type: 'short_description',
+                    reference_type: 'products',
+                    locale: product.locale,
+                    value: product.short_description,
+                    reference_id: id
+                },
+                {  
+                    translation_type: 'long_description',
+                    reference_type: 'products',
+                    locale: product.locale,
+                    value: product.long_description,
+                    reference_id: id
+                }
+            ]
+             for(let i = 0; i < transData.length; i++){
+                  let update  = transData[i]
+                  let updateQuery  = "update translations SET value='"+update.value+"' WHERE reference_id = "+id+ " AND  reference_type = 'products' AND locale = '"+update.locale+"' AND translation_type='"+update.translation_type+"' " 
+                  dbConn.query(updateQuery, function(err, res) {
+                      if (err) {
+                          return result(err, null);
+                      }
+                      else {
+                          return result(null, res.affectedRows)
+                      }
+                  });
+              }
+          }
+      }); 
+  };
+  Product.deleteByID = (id, result)=>{
+    const query = "DELETE FROM products WHERE id ="+id
+     dbConn.query(query,  (err, res)=> {
         if(err) {
-            result(null, err)
-        }else{  
-            console.log('else') 
-            dbConn.query("UPDATE translations SET translation_type=?,refrence_type=? ,locale=? ,value=? WHERE reference_id = ?", 
-            [category.translation_type,category.refrence_type,category.locale,category.value, id],  (err, res) =>{
+            return result(null, err);
+        }
+        else{
+            const trans = `DELETE FROM translations WHERE reference_id =${id} AND reference_type= "products"`
+            dbConn.query(trans,  (err, res)=> {
                 if(err) {
-                    result(null, err)
-                }else{   
-                    console.log('right') 
+                   return  result(null, err);
+                }
+                else{
                     result(null, res);
                 }
             })
         }
-    }); 
-};*/
-Product.delete = (id, result)=>{
-     dbConn.query("DELETE products, translations FROM products INNER JOIN translations ON products.id = translations.reference_id WHERE products.id= ?", [id],  (err, res)=> {
-        if(err) {
-            result(null, err);
-        }
-        else{
-            //console.log(res.affectedRows)
-            result(null, res);
-        }
     })
-}  
+} 
+
 
 module.exports = Product

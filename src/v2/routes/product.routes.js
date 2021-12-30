@@ -23,19 +23,18 @@ module.exports = function(app) {
       productController.findById
     );
    
-   app.post( "/api/v2/cms",
-    [authJwt.verifyToken,authJwt.isAdmin], 
-    fileUpload.single('images'),
+   app.post( "/api/v2/products",
+    [authJwt.verifyToken,authJwt.isAdmin],
     productController.create
     )
-    /*  app.put( "/api/v2/cms/:id",
+     app.put( "/api/v2/products/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.update)
+    productController.update)
 
-    app.delete( "/api/v2/cms/:id",
+    app.delete( "/api/v2/products/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.deleteByID
-    ) */
+    productController.deleteByID
+    )
     
    
   }
