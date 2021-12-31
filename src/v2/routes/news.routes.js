@@ -2,8 +2,6 @@
 const { authJwt } = require("../middleware");
 const newsController = require('../controllers/news.controller');
 
-//router.post('/cms',fileUpload.single('thumbnail') ,cmsController.create)
-
 module.exports = function(app) {
     app.use(function(req, res, next) {
       res.header({
@@ -21,18 +19,18 @@ module.exports = function(app) {
       "/api/v2/news/:id",
       newsController.findById
     );
-    /* app.post( "/api/v2/cms",
+     app.post( "/api/v2/news",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.create
+    newsController.create
     )
-    app.put( "/api/v2/cms/:id",
+    app.put( "/api/v2/news/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.update)
+    newsController.update)
 
-    app.delete( "/api/v2/cms/:id",
+    app.delete( "/api/v2/news/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.deleteByID
-    ) */
+    newsController.deleteByID
+    ) 
     
    
   }

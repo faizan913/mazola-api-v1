@@ -16,15 +16,16 @@ exports.findAll = (req, res) => {
 }
 
 exports.create = (req, res) => {
-    const newProducts = new Product(req.body)
-    newProducts.filename = (req.file.filename)
+    const newsData = new News(req.body)
+    let locale = (JSON.stringify(req.headers['locale']))
+    newsData.locale= (locale === undefined) ? "en" :locale
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
         res.status(400).send({ error: true, message: 'Please provide all required field' });
     } else {
-        News.create(newProducts, (err, news) => {
-            if (err) { res.send(err) }
+        News.create(newsData, (err, news) => {
+            if (err) {return  res.send(err) }
             else {
-                res.json({ success: true, message: "Product added successfully!", data: news })
+                res.status(201).json({ success: true, message: "News added!" })
             }
         });
     }
@@ -46,30 +47,32 @@ exports.findById = (req, res) => {
     })
 }
 
-/*
+
 exports.update = (req, res) =>{
+    const newsData = new News(req.body)
+    let locale = (JSON.stringify(req.headers['locale']))
+    newsData.locale= (locale === undefined) ? "en" :locale
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Category.update(req.params.id, new Category(req.body), (err, category) =>{
-            if (err)
-            res.send(err)
-            res.json({ success:true, message: 'Category successfully updated' });
+        News.update(req.params.id, newsData, (err, category) =>{
+            if (err){ return res.send(err) }
+            else{res.status(200).json({ success:true, message: 'News updated' }) }
         })
     }
   
-}*/
-
-
-exports.delete = (req, res) => {
-    News.delete(req.params.id, (err, product) => {
-        if (err) { res.send(err) }
-        else {
-            if (product.affectedRows > 0) {
-                res.json({ success: true, message: 'Product  deleted', data: product })
-            } else {
-                res.json({ error: false, message: 'No records found' })
-            }
-        }
-    })
 }
+
+
+exports.deleteByID = (req, res) =>{
+    News.deleteByID( req.params.id, (err, cms) =>{
+    if (err){return  res.send(err)}
+    else{
+      if(cms.affectedRows>0){
+        res.json({ success:true, message: 'cms  deleted'})
+        }else{
+            res.status(404).json({ error:false, message: 'No records found'})
+        }
+    }   
+  })
+}  
