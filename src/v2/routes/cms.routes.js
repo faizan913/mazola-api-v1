@@ -25,7 +25,7 @@ module.exports = function(app) {
       "/api/v2/cms/:id",
       cmsController.findById
     );
-    /* app.post( "/api/v2/cms",
+    app.post( "/api/v2/cms",
     [authJwt.verifyToken,authJwt.isAdmin],
     cmsController.create
     )
@@ -36,7 +36,7 @@ module.exports = function(app) {
     app.delete( "/api/v2/cms/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
     cmsController.deleteByID
-    ) */
+    ) 
     
    
   }

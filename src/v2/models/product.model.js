@@ -108,7 +108,6 @@ Product.findAll = (lang,result) => {
 
 Product.update = (id, product, result) => {
     let imageJson = JSON.stringify(product.images)
-    console.log(product)
     dbConn.query("UPDATE products SET category_id=?,featured_image=? ,images=?,uom=?,size=? ,price=?,discounted_price=?,active=? WHERE id = ?", [product.category_id,product.featured_image,imageJson,product.uom,product.size,product.price,product.discounted_price,product.active, id],  (err, res) =>{
           if(err) {
               return result(null, err)
