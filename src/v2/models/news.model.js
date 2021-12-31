@@ -35,7 +35,7 @@ News.create = function (news, result) {
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.title,
-                    reference_id: res.insertId,
+                    reference_id: id,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -44,7 +44,7 @@ News.create = function (news, result) {
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.description,
-                    reference_id: res.insertId,
+                    reference_id:id,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -53,7 +53,7 @@ News.create = function (news, result) {
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.content,
-                    reference_id: res.insertId,
+                    reference_id: id,
                     created_at: new Date(),
                     updated_at: new Date()
                 }

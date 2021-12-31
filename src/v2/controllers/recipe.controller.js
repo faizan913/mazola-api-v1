@@ -15,15 +15,16 @@ exports.findAll = (req, res)=> {
 }
  
  exports.create = (req, res) =>{
-    const newRecipe = new Video(req.body)
-    newRecipe.filename = (req.file.filename)
+    const newRecipe = new Recipe(req.body)
+    let locale = (JSON.stringify(req.headers['locale']))
+    newRecipe.locale= (locale === undefined) ? "en" :locale
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Recipe.create(newRecipe, (err, video) =>{
-            if (err){ res.send(err)}
+        Recipe.create(newRecipe, (err, recipe) =>{
+            if (err){ return res.send(err)}
            else{
-                res.json({success:true,message:"Product added successfully!",data:newVideo})
+                res.json({success:true,message:"Product added successfully!"})
            }
         });
     }
@@ -44,30 +45,32 @@ exports.findAll = (req, res)=> {
     })
 }
 
-/*
+
 exports.update = (req, res) =>{
+    const newRecipe = new Recipe(req.body)
+    let locale = (JSON.stringify(req.headers['locale']))
+    newRecipe.locale= (locale === undefined) ? "en" :locale
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Recipe.update(req.params.id, new Category(req.body), (err, category) =>{
-            if (err)
-            res.send(err)
-            res.json({ success:true, message: 'Category successfully updated' });
+        Recipe.update(req.params.id, newRecipe, (err, category) =>{
+            if (err){ res.send(err)}
+            else{ res.json({ success:true, message: 'Recipe updated' })}
         })
     }
   
 }
 
 
-exports.delete = (req, res) =>{
-    Recipe.delete( req.params.id, (err, product) =>{
-    if (err){res.send(err)}
+exports.deleteByID = (req, res) =>{
+    Recipe.deleteByID( req.params.id, (err, cms) =>{
+    if (err){return  res.send(err)}
     else{
-        if(product.affectedRows>0){
-        res.json({ success:true, message: 'Product  deleted', data:  product})
+      if(cms.affectedRows>0){
+        res.json({ success:true, message: 'recipe  deleted'})
         }else{
-            res.json({ error:false, message: 'No records found'})
+            res.status(404).json({ error:false, message: 'No records found'})
         }
     }   
   })
-}  */
+} 

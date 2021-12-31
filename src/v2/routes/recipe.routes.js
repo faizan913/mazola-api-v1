@@ -21,18 +21,18 @@ module.exports = function(app) {
       "/api/v2/recipes/:id",
       recipeController.findById
     );
-    /* app.post( "/api/v2/cms",
+     app.post( "/api/v2/recipes",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.create
+    recipeController.create
     )
-    app.put( "/api/v2/cms/:id",
+    app.put( "/api/v2/recipes/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.update)
+    recipeController.update)
 
-    app.delete( "/api/v2/cms/:id",
+    app.delete( "/api/v2/recipes/:id",
     [authJwt.verifyToken,authJwt.isAdmin],
-    cmsController.deleteByID
-    ) */
+    recipeController.deleteByID
+    ) 
     
    
   }

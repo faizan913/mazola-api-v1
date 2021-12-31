@@ -108,7 +108,7 @@ CMS.update = (id, cms, result) => {
                     reference_type: 'cms',
                     locale: cms.locale,
                     value: cms.title,
-                    reference_id: res.insertId,
+                    reference_id: id,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -117,7 +117,7 @@ CMS.update = (id, cms, result) => {
                     reference_type: 'cms',
                     locale: cms.locale,
                     value: cms.description,
-                    reference_id: res.insertId,
+                    reference_id: id,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -126,7 +126,7 @@ CMS.update = (id, cms, result) => {
                     reference_type: 'cms',
                     locale: cms.locale,
                     value: cms.content,
-                    reference_id: res.insertId,
+                    reference_id: id,
                     created_at: new Date(),
                     updated_at: new Date()
                 }
