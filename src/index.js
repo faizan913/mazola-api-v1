@@ -47,6 +47,7 @@ require('./v2/routes/recipe.routes')(app)
 require('./v2/routes/product.routes')(app)
 require('./v2/routes/news.routes')(app)
 require('./v2/routes/video.routes')(app)
+require('./v2/routes/config.routes')(app)
 // health check
 app.get("/health", (req, res) => {
   res.json({ status: "up" })

@@ -1,0 +1,33 @@
+//For Banner json 
+
+{ 
+   "title": "",
+   "description": "",
+   "link_url":"",
+   "image_url":"https://mazola-prod.s3.me-south-1.amazonaws.com/images/main+page+3.jpg",
+   "group":"home",
+   "name": "banner",
+    "type":"image",
+    "show_title":false,
+    "header":false,
+   "active": true,
+   "archived":false
+
+},
+
+// For Category Label
+
+{ 
+   "title": "Our Categories",
+   "description": "",
+   "link_url":"",
+   "image_url":"",
+   "group":"home",
+   "name": "category",
+    "type":"label",
+    "show_title":true,
+    "header":true,
+   "active": true,
+   "archived":false
+
+}
