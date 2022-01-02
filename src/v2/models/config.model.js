@@ -167,13 +167,13 @@ Config.update = (id, config, result) => {
     }); 
 };
 Config.deleteByID = (id, result)=>{
-    const query = "DELETE FROM categories WHERE id ="+id
+    const query = "DELETE FROM configs WHERE id ="+id
      dbConn.query(query,  (err, res)=> {
         if(err) {
             return result(null, err);
         }
         else{
-            const trans = `DELETE FROM translations WHERE reference_id =${id} AND reference_type= "categories"`
+            const trans = `DELETE FROM translations WHERE reference_id =${id} AND reference_type= "configs"`
             dbConn.query(trans,  (err, res)=> {
                 if(err) {
                    return  result(null, err);

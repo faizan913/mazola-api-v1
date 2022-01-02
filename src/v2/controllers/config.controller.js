@@ -73,7 +73,7 @@ exports.deleteByID = (req, res) =>{
     if (err){
         return res.send(err)
     }else{ 
-        return res.json({ success:true, message: 'Category  deleted'})
+         res.json({ success:true, message: 'config  deleted'})
     }
   })
 }
