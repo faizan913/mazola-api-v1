@@ -84,12 +84,12 @@ Category.findAllProductByCatId =  (lang,id, result)=> {
 } 
 Category.findAll =  (lang,result)=> {
     const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "categories" and t.translation_type = "title" and t.locale = '+lang+')as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "categories" and t.translation_type = "description" and t.locale = '+lang+') as "description",c.parent_id FROM categories c'
+    console.log(query)
     dbConn.query(query,  (err, res)=> {
         if(err) {
             result(null, err)
         }
         else{
-            console.log(res)
             result(null, res)
         }
     })   
