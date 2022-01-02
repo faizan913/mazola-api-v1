@@ -123,11 +123,19 @@ Category.update = (id, category, result) => {
  
                 dbConn.query(updateQuery, function(err, res) {
                     if (err) {
-                        return result(err, null);
-                    }
-                    else {
-                        return result(null, res.affectedRows)
-                    }
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
+                      }
+                
+                      if (res.affectedRows == 0) {
+                        // not found Tutorial with the id
+                        result({ kind: "not_found" }, null);
+                        return;
+                      }
+                      let {title, description,parent_id} = category //destructure of obj object
+                      result(null, { id: id, title, description,parent_id });
+                    
                 });
             }
         }

@@ -76,7 +76,7 @@ exports.update = (req, res) =>{
             if (err){
                 return res.send(err)
             }else{
-                 return res.status(200).send({ success:true, message: 'Category successfully updated' });
+                 return res.status(200).send(category);
             }
         })
     }
