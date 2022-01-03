@@ -16,17 +16,16 @@ exports.findAll = (req, res)=> {
 }
  
  exports.create = (req, res) =>{
-     console.log(req.body)
     const newCMS = new CMS(req.body)
     let locale = (JSON.stringify(req.headers['locale']))
     newCMS.locale= (locale === undefined) ? "en" :locale 
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        CMS.create(newCMS, (err, video) =>{
+        CMS.create(newCMS, (err, cms) =>{
             if (err){ return res.send(err)}
            else{
-                res.json({success:true,message:"CMS added successfully!"})
+                res.status(201).send(cms)
            }
         });
     }
@@ -60,7 +59,7 @@ exports.update = (req, res) =>{
     }else{
         CMS.update(req.params.id, newCMS, (err, cms) =>{
             if (err){return res.send(err)}
-            else{return res.status(200).send({ success:true, message: 'CMS updated' })}
+            else{return res.status(200).send(cms)}
         })
     }
   

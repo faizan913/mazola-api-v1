@@ -114,7 +114,6 @@ Product.findById =  (lang,id, result)=> {
 } 
 Product.findAll = (lang,result) => {
     const query = 'SELECT p.id,(select t.value from translations t where t.reference_id = p.id AND t.reference_type = "products" and t.translation_type = "title" and t.locale = '+lang+')as "title" ,(select t.value from translations t where t.reference_id = p.id AND t.reference_type = "products" and t.translation_type = "description" and t.locale = '+lang+')as "description",(select t.value from translations t where t.reference_id = p.id AND t.reference_type = "products" and t.translation_type = "nutrition" and t.locale = '+lang+')as "nutrition",(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "categories" and t.translation_type = "title" and t.locale = '+lang+')as "category" ,p.images,p.uom,p.size,p.price,p.featured_image,p.discounted_price FROM products p left join categories c on c.id = p.category_id'
-   //console.log(query)
     dbConn.query(query, (err, res) => {
         if (err) {
             result(null, err)
@@ -126,7 +125,6 @@ Product.findAll = (lang,result) => {
 }
 
 Product.update = (id, product, result) => {
-    console.log(id)
     let imageJson = JSON.stringify(product.images)
     dbConn.query("UPDATE products SET category_id=?,featured_image=? ,images=?,uom=?,size=? ,price=?,discounted_price=?,active=? WHERE id = ?", [product.category_id,product.featured_image,imageJson,product.uom,product.size,product.price,product.discounted_price,product.active, id],  (err, res) =>{
           if(err) {

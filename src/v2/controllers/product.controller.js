@@ -17,7 +17,6 @@ exports.findAll = (req, res)=> {
  
 exports.create = (req, res) =>{
     const newProducts = new Product(req.body)
-    console.log(newProducts)
     locale = (JSON.stringify(req.headers['locale']))
     newProducts.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
