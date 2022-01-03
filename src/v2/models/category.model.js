@@ -19,7 +19,7 @@ Category.create = function (newCat, result) {
         updated_at: new Date()
     } 
     
-    dbConn.query("INSERT INTO categories set ?", categoryData, function (err, res) {
+    dbConn.query("INSERT INTO categories set ?", categoryData, function (err, cateRes) {
         if(err) {
             result(err, null);
         }
@@ -29,7 +29,7 @@ Category.create = function (newCat, result) {
                     reference_type: 'categories',
                     locale: newCat.locale,
                     value: newCat.title,
-                    reference_id: res.insertId,
+                    reference_id: cateRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -38,7 +38,7 @@ Category.create = function (newCat, result) {
                     reference_type: 'categories',
                     locale: newCat.locale,
                     value: newCat.description,
-                    reference_id: res.insertId,
+                    reference_id: cateRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 }
@@ -47,11 +47,12 @@ Category.create = function (newCat, result) {
                 let post  = transData[i]
                 dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
                     if (err) {
-                        return result(err, null);
-                    }
-                    else {
-                        return result(null, res)
-                    }
+                        console.log("error: ", err);
+                        result(err, null);
+                        return;
+                      }
+                      let {  created_at,updated_at,locale, ...all} = category
+                       result(null, { id: cateRes.insertId, ...all });
                 });
             }
         }
