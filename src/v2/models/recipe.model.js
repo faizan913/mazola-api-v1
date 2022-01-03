@@ -33,7 +33,7 @@ Recipe.create = function (recipe, result) {
             updated_at: new Date()
     }
 
-    dbConn.query("INSERT INTO recipes set ?", recipeData, function (err, res) {
+    dbConn.query("INSERT INTO recipes set ?", recipeData, function (err, resipeRes) {
         if (err) {
             result(err, null);
         }
@@ -43,7 +43,7 @@ Recipe.create = function (recipe, result) {
                     reference_type: 'recipes',
                     locale: recipe.locale,
                     value: recipe.title,
-                    reference_id: res.insertId,
+                    reference_id: resipeRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -52,7 +52,7 @@ Recipe.create = function (recipe, result) {
                     reference_type: 'recipes',
                     locale: recipe.locale,
                     value: recipe.description,
-                    reference_id: res.insertId,
+                    reference_id: resipeRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -61,7 +61,7 @@ Recipe.create = function (recipe, result) {
                     reference_type: 'recipes',
                     locale: recipe.locale,
                     value: recipe.content,
-                    reference_id: res.insertId,
+                    reference_id: resipeRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 }
@@ -70,11 +70,12 @@ Recipe.create = function (recipe, result) {
                 let post  = transData[i]
                 dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
                     if (err) {
+                        console.log("error: ", err);
                         result(err, null);
-                    }
-                    else {
-                        result(null, res.affectedRows)
-                    }
+                        return;
+                      }
+                      let { archived, created_at,updated_at,locale, ...all} = recipe
+                       result(null, { id: resipeRes.insertId, ...all });
                 });
             }
         }
@@ -137,12 +138,17 @@ Recipe.update = (id, recipe, result) => {
                   let update  = transData[i]
                   let updateQuery  = "update translations SET value='"+update.value+"' WHERE reference_id = "+id+ " AND  reference_type = 'recipes' AND locale = '"+update.locale+"' AND translation_type='"+update.translation_type+"' " 
                   dbConn.query(updateQuery, function(err, res) {
-                      if (err) {
-                          return result(err, null);
+                    if (err) {
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
                       }
-                      else {
-                          return result(null, res.affectedRows)
-                      }
+                      if (res.affectedRows == 0) {
+                        result({ message: "Not update" }, null);
+                        return;
+                      }                      
+                      let { created_at,updated_at,locale, ...all} = recipe //destructure of obj object
+                      result(null,  {id:id,...all} );
                   });
               }
           }

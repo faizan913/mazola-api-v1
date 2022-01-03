@@ -16,15 +16,15 @@ exports.findAll = (req, res)=> {
  
  exports.create = (req, res) =>{
     const newRecipe = new Recipe(req.body)
-    let locale = (JSON.stringify(req.headers['locale']))
-    newRecipe.locale= (locale === undefined) ? "en" :locale
+    locale = (JSON.stringify(req.headers['locale']))
+    newRecipe.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Recipe.create(newRecipe, (err, recipe) =>{
             if (err){ return res.send(err)}
            else{
-                res.json({success:true,message:"Product added successfully!"})
+                res.status(201).send(recipe)
            }
         });
     }
@@ -48,14 +48,14 @@ exports.findAll = (req, res)=> {
 
 exports.update = (req, res) =>{
     const newRecipe = new Recipe(req.body)
-    let locale = (JSON.stringify(req.headers['locale']))
-    newRecipe.locale= (locale === undefined) ? "en" :locale
+    locale = (JSON.stringify(req.headers['locale']))
+    newRecipe.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Recipe.update(req.params.id, newRecipe, (err, category) =>{
+        Recipe.update(req.params.id, newRecipe, (err, recipe) =>{
             if (err){ res.send(err)}
-            else{ res.json({ success:true, message: 'Recipe updated' })}
+            else{ res.json(recipe)}
         })
     }
   
