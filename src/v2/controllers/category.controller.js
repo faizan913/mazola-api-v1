@@ -25,7 +25,7 @@ exports.create = (req, res) =>{
         Category.create(newCat, (err, category) =>{
             if (err){ return res.send(err);}
            else{
-           return res.status(201).send({success:true,message:"Category added successfully!"});
+           return res.status(201).send(category);
            }
         });
     }
