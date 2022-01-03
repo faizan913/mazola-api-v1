@@ -19,7 +19,7 @@ Category.create = function (newCat, result) {
         updated_at: new Date()
     } 
     
-    dbConn.query("INSERT INTO categories set ?", categoryData, function (err, cateRes) {
+    dbConn.query("INSERT INTO categories set ?", categoryData, function (err, catRes) {
         if(err) {
             result(err, null);
         }
@@ -29,7 +29,7 @@ Category.create = function (newCat, result) {
                     reference_type: 'categories',
                     locale: newCat.locale,
                     value: newCat.title,
-                    reference_id: cateRes.insertId,
+                    reference_id: catRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -38,7 +38,7 @@ Category.create = function (newCat, result) {
                     reference_type: 'categories',
                     locale: newCat.locale,
                     value: newCat.description,
-                    reference_id: cateRes.insertId,
+                    reference_id: catRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 }
@@ -51,8 +51,8 @@ Category.create = function (newCat, result) {
                         result(err, null);
                         return;
                       }
-                      let {  created_at,updated_at,locale, ...all} = category
-                       result(null, { id: cateRes.insertId, ...all });
+                      let {  created_at,updated_at,locale, ...all} = newCat
+                       result(null, { id: catRes.insertId, ...all });
                 });
             }
         }
@@ -61,13 +61,12 @@ Category.create = function (newCat, result) {
 Category.findById =  (lang,id, result)=> {
     const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "categories" and t.translation_type = "title" and t.locale = '+lang+')as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "categories" and t.translation_type = "description" and t.locale = '+lang+') as "description",c.parent_id FROM categories c where c.id='+id
     dbConn.query(query,  (err, res)=> {             
-        if (err) {
-            console.log("error: ", err);
+        if(err) {
             result(err, null);
-            return;
-          }
-          let { created_at,updated_at,locale, ...all} = category
-           result(null, { id: res.insertId, ...all });
+        }
+        else{
+            result(null, res);
+        }
     })   
 } 
 
