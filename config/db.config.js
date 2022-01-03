@@ -1,13 +1,13 @@
 const mysql = require('mysql');
 
-/* const dbConn = mysql.createPool({
+ /* const dbConn = mysql.createPool({
   connectionLimit: 100, //important
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'mazola_admin',
   debug: false
-});  */ 
+});   */
  /**/
 //Create db connection
 /* const dbConn = mysql.createConnection({
@@ -24,7 +24,7 @@ const dbConn = mysql.createPool({
   password: process.env.DB_PWD,
   database: process.env.DB_NAME,
   debug: false
-});   
+});    
 dbConn.getConnection(function (err, connection) {
   if (err) throw err;
   console.log("Database Connected!");

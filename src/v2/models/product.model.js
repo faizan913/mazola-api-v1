@@ -4,6 +4,8 @@ const dbConn = require('../../../config/db.config');
 const Product = function (product) {
     this.category_id=product.category_id,
     this.title=product.title,
+    this.nutrition=product.nutrition,
+    this.description=product.description,
     this.short_description=product.short_description,
     this.long_description=product.long_description,
     this.uom =product.uom,
@@ -38,12 +40,28 @@ Product.create = function (product, result) {
             result(err, null);
         }
         else {
-           
+            let nutrition = JSON.stringify(product.nutrition)
             const transData = [
                 {   translation_type: 'title',
                     reference_type: 'products',
                     locale: product.locale,
                     value: product.title,
+                    reference_id: res.insertId,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                },
+                {   translation_type: 'nutrition',
+                    reference_type: 'products',
+                    locale: product.locale,
+                    value: nutrition,
+                    reference_id: res.insertId,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                },
+                {   translation_type: 'description',
+                    reference_type: 'products',
+                    locale: product.locale,
+                    value: product.description,
                     reference_id: res.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
@@ -71,11 +89,12 @@ Product.create = function (product, result) {
                 let post  = transData[i]
                 dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
                     if (err) {
+                        console.log("error: ", err);
                         result(err, null);
-                    }
-                    else {
-                        result(null, res.affectedRows)
-                    }
+                        return;
+                      }
+                      let { archived, created_at,updated_at,locale, ...all} = product
+                       result(null, { id: res.insertId, ...all });
                 });
             }
         }
@@ -107,11 +126,13 @@ Product.findAll = (lang,result) => {
 }
 
 Product.update = (id, product, result) => {
+    console.log(id)
     let imageJson = JSON.stringify(product.images)
     dbConn.query("UPDATE products SET category_id=?,featured_image=? ,images=?,uom=?,size=? ,price=?,discounted_price=?,active=? WHERE id = ?", [product.category_id,product.featured_image,imageJson,product.uom,product.size,product.price,product.discounted_price,product.active, id],  (err, res) =>{
           if(err) {
               return result(null, err)
           }else{  
+            let nutrition = JSON.stringify(product.nutrition)
               const transData = [
                 {   translation_type: 'title',
                     reference_type: 'products',
@@ -119,6 +140,19 @@ Product.update = (id, product, result) => {
                     value: product.title,
                     reference_id: id
                 },
+                { 
+                translation_type: 'nutrition',
+                reference_type: 'products',
+                locale: product.locale,
+                value: nutrition,
+                reference_id: id
+            },
+            {   translation_type: 'description',
+                reference_type: 'products',
+                locale: product.locale,
+                value: product.description,
+                reference_id: id
+            },
                 {  
                     translation_type: 'short_description',
                     reference_type: 'products',
@@ -138,12 +172,21 @@ Product.update = (id, product, result) => {
                   let update  = transData[i]
                   let updateQuery  = "update translations SET value='"+update.value+"' WHERE reference_id = "+id+ " AND  reference_type = 'products' AND locale = '"+update.locale+"' AND translation_type='"+update.translation_type+"' " 
                   dbConn.query(updateQuery, function(err, res) {
-                      if (err) {
-                          return result(err, null);
+                    if (err) {
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
                       }
-                      else {
-                          return result(null, res.affectedRows)
+                      if (res.affectedRows == 0) {
+                        // not found Tutorial with the id
+                        result({ message: "Not update" }, null);
+                        return;
                       }
+                      //const { archived, created_at,updated_at, ...otherInfo } = product
+                      
+                      let { archived, created_at,updated_at,locale, ...all} = product //destructure of obj object
+                     
+                      result(null,  {id:id,...all} );
                   });
               }
           }

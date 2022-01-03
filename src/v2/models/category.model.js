@@ -60,12 +60,13 @@ Category.create = function (newCat, result) {
 Category.findById =  (lang,id, result)=> {
     const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "categories" and t.translation_type = "title" and t.locale = '+lang+')as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "categories" and t.translation_type = "description" and t.locale = '+lang+') as "description",c.parent_id FROM categories c where c.id='+id
     dbConn.query(query,  (err, res)=> {             
-        if(err) {
+        if (err) {
+            console.log("error: ", err);
             result(err, null);
-        }
-        else{
-            result(null, res);
-        }
+            return;
+          }
+          let { created_at,updated_at,locale, ...all} = category
+           result(null, { id: res.insertId, ...all });
     })   
 } 
 
@@ -127,10 +128,9 @@ Category.update = (id, category, result) => {
                         result(null, err);
                         return;
                       }
-                
                       if (res.affectedRows == 0) {
                         // not found Tutorial with the id
-                        result({ kind: "not_found" }, null);
+                        result({ message: "Not update" }, null);
                         return;
                       }
                       let {title, description,parent_id} = category //destructure of obj object

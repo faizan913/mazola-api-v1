@@ -17,15 +17,16 @@ exports.findAll = (req, res)=> {
  
 exports.create = (req, res) =>{
     const newProducts = new Product(req.body)
-    let locale = (JSON.stringify(req.headers['locale']))
-    newProducts.locale= (locale === undefined) ? "en" :locale 
+    console.log(newProducts)
+    locale = (JSON.stringify(req.headers['locale']))
+    newProducts.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Product.create(newProducts, (err, product) =>{
             if (err){ return res.send(err)}
            else{
-               return  res.status(201).send({success:true,message:"Product added successfully!"})
+               return  res.status(201).send(product)
            }
         });
     }
@@ -50,15 +51,15 @@ exports.create = (req, res) =>{
 
 exports.update = (req, res) =>{
     const newProducts = new Product(req.body)
-    let locale = (JSON.stringify(req.headers['locale']))
-    newProducts.locale= (locale === undefined) ? "en" :locale 
+    locale = (JSON.stringify(req.headers['locale']))
+    newProducts.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Product.update(req.params.id, newProducts, (err, product) =>{
             if (err){return res.send(err)
             }else{
-            return res.status(200).send({ success:true, message: 'Product updated' });
+            return res.status(200).send(product);
             }
         })
     }
