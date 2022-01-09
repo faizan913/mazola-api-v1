@@ -24,7 +24,7 @@ News.create = function (news, result) {
         updated_at: new Date()
     } 
 
-    dbConn.query("INSERT INTO news set ?", newsData, function (err, res) {
+    dbConn.query("INSERT INTO news set ?", newsData, function (err, newsRes) {
         if (err) {
             result(err, null);
         }
@@ -35,7 +35,7 @@ News.create = function (news, result) {
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.title,
-                    reference_id: id,
+                    reference_id: newsRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -44,7 +44,7 @@ News.create = function (news, result) {
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.description,
-                    reference_id:id,
+                    reference_id:newsRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -53,7 +53,7 @@ News.create = function (news, result) {
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.content,
-                    reference_id: id,
+                    reference_id: newsRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 }
@@ -62,11 +62,12 @@ News.create = function (news, result) {
                 let post  = transData[i]
                 dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
                     if (err) {
+                        console.log("error: ", err);
                         result(err, null);
-                    }
-                    else {
-                        result(null, res.affectedRows)
-                    }
+                        return;
+                      }
+                      let { archived, created_at,updated_at,locale, ...all} = news
+                       result(null, { id: newsRes.insertId, ...all });
                 });
             }
         }
@@ -107,39 +108,38 @@ News.update = (id, news, result) => {
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.title,
-                    reference_id: res.insertId,
-                    created_at: new Date(),
-                    updated_at: new Date()
+                    reference_id: id
                 },
                 {  
                     translation_type: 'description',
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.description,
-                    reference_id: res.insertId,
-                    created_at: new Date(),
-                    updated_at: new Date()
+                    reference_id: id
                 },
                 {  
                     translation_type: 'content',
                     reference_type: 'news',
                     locale: news.locale,
                     value: news.content,
-                    reference_id: res.insertId,
-                    created_at: new Date(),
-                    updated_at: new Date()
+                    reference_id: id
                 }
             ]
              for(let i = 0; i < transData.length; i++){
                   let update  = transData[i]
                   let updateQuery  = "update translations SET value='"+update.value+"' WHERE reference_id = "+id+ " AND  reference_type = 'news' AND locale = '"+update.locale+"' AND translation_type='"+update.translation_type+"' " 
                   dbConn.query(updateQuery, function(err, res) {
-                      if (err) {
-                          return result(err, null);
+                    if (err) {
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
                       }
-                      else {
-                          return result(null, res.affectedRows)
-                      }
+                      if (res.affectedRows == 0) {
+                        result({ message: "Not update" }, null);
+                        return;
+                      }                      
+                      let { created_at,updated_at,locale, ...all} = cms //destructure of obj object
+                      result(null,  {id:id,...all} );
                   });
               }
           }

@@ -17,15 +17,15 @@ exports.findAll = (req, res) => {
 
 exports.create = (req, res) => {
     const newsData = new News(req.body)
-    let locale = (JSON.stringify(req.headers['locale']))
-    newsData.locale= (locale === undefined) ? "en" :locale
+    locale = (JSON.stringify(req.headers['locale']))
+    newsData.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
         res.status(400).send({ error: true, message: 'Please provide all required field' });
     } else {
         News.create(newsData, (err, news) => {
             if (err) {return  res.send(err) }
             else {
-                res.status(201).json({ success: true, message: "News added!" })
+                res.status(201).json(news)
             }
         });
     }
@@ -50,14 +50,14 @@ exports.findById = (req, res) => {
 
 exports.update = (req, res) =>{
     const newsData = new News(req.body)
-    let locale = (JSON.stringify(req.headers['locale']))
-    newsData.locale= (locale === undefined) ? "en" :locale
+    locale = (JSON.stringify(req.headers['locale']))
+    newsData.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        News.update(req.params.id, newsData, (err, category) =>{
+        News.update(req.params.id, newsData, (err, news) =>{
             if (err){ return res.send(err) }
-            else{res.status(200).json({ success:true, message: 'News updated' }) }
+            else{res.status(200).json(news) }
         })
     }
   
