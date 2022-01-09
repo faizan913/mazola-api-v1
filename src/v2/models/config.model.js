@@ -30,7 +30,7 @@ Config.create = function (newConfig, result) {
         updated_at: new Date()
     } 
     
-    dbConn.query("INSERT INTO configs set ?", configData, function (err, res) {
+    dbConn.query("INSERT INTO configs set ?", configData, function (err, congRes) {
         if(err) {
             result(err, null);
         }
@@ -40,7 +40,7 @@ Config.create = function (newConfig, result) {
                     reference_type: 'configs',
                     locale: newConfig.locale,
                     value: newConfig.title,
-                    reference_id: res.insertId,
+                    reference_id: congRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -49,7 +49,7 @@ Config.create = function (newConfig, result) {
                     reference_type: 'configs',
                     locale: newConfig.locale,
                     value: newConfig.description,
-                    reference_id: res.insertId,
+                    reference_id: congRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -58,7 +58,7 @@ Config.create = function (newConfig, result) {
                     reference_type: 'configs',
                     locale: newConfig.locale,
                     value: newConfig.link_url,
-                    reference_id: res.insertId,
+                    reference_id: congRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -67,7 +67,7 @@ Config.create = function (newConfig, result) {
                     reference_type: 'configs',
                     locale: newConfig.locale,
                     value: newConfig.image_url,
-                    reference_id: res.insertId,
+                    reference_id: congRes.insertId,
                     created_at: new Date(),
                     updated_at: new Date()
                 }
@@ -76,11 +76,12 @@ Config.create = function (newConfig, result) {
                 let post  = transData[i]
                 dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
                     if (err) {
-                        return result(err, null);
-                    }
-                    else {
-                        return result(null, res)
-                    }
+                        console.log("error: ", err);
+                        result(err, null);
+                        return;
+                      }
+                      let {  created_at,updated_at,locale,archived, ...all} = newConfig
+                       result(null, { id: congRes.insertId, ...all });
                 });
             }
         }
@@ -156,11 +157,16 @@ Config.update = (id, config, result) => {
  
                 dbConn.query(updateQuery, function(err, res) {
                     if (err) {
-                        return result(err, null);
-                    }
-                    else {
-                        return result(null, res.affectedRows)
-                    }
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
+                      }
+                      if (res.affectedRows == 0) {
+                        result({ message: "Not update" }, null);
+                        return;
+                      }                      
+                      let { created_at,updated_at,locale, archived,...all} = config //destructure of obj object
+                      result(null,  {id:id,...all} );
                 });
             }
         }

@@ -17,15 +17,15 @@ exports.findAll = (req, res)=> {
  
 exports.create = (req, res) =>{
     const newConfig = new Config(req.body)
-    var locale = (JSON.stringify(req.headers['locale']))
-    newConfig.locale= (locale === undefined) ? "en" :locale 
+    locale = (JSON.stringify(req.headers['locale']))
+    newConfig.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '') 
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Config.create(newConfig, (err, config) =>{
             if (err){ return res.send(err);}
            else{
-           return res.status(201).send({success:true,message:"Config added!"});
+           return res.status(201).send(config);
            }
         });
     }
@@ -51,8 +51,8 @@ exports.findById = (req, res)=> {
 
 exports.update = (req, res) =>{
     const newConfig = new Config(req.body)
-    var locale = (JSON.stringify(req.headers['locale']))
-    newConfig.locale= (locale === undefined) ? "en" :locale 
+    locale = (JSON.stringify(req.headers['locale']))
+    newConfig.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '')
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
@@ -60,7 +60,7 @@ exports.update = (req, res) =>{
             if (err){
                 return res.send(err)
             }else{
-                 return res.status(200).send({ success:true, message: 'Config updated' });
+                 return res.status(200).send(config);
             }
         })
     }
