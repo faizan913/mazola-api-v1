@@ -72,8 +72,12 @@ exports.deleteByID = (req, res) =>{
   Config.deleteByID( req.params.id, (err, config) =>{
     if (err){
         return res.send(err)
-    }else{ 
-         res.json({ success:true, message: 'config  deleted'})
-    }
+    }else{
+        if(config.affectedRows>0){
+          res.json({ success:true, message: 'config  deleted'})
+          }else{
+              res.json({ error:false, message: 'No records found'})
+          }
+        }
   })
 }

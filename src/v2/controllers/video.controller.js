@@ -17,14 +17,15 @@ exports.findAll = (req, res)=> {
  
  exports.create = (req, res) =>{
     const newVideo = new Video(req.body)
-    newVideo.filename = (req.file.filename)
+    locale = (JSON.stringify(req.headers['locale']))
+    newVideo.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '') 
    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
         Video.create(newVideo, (err, video) =>{
             if (err){ res.send(err)}
            else{
-                res.json({success:true,message:"Product added successfully!",data:newVideo})
+                res.status(200).send(video)
            }
         });
     }
@@ -47,30 +48,32 @@ exports.findAll = (req, res)=> {
     })
 }
 
-/*
+
 exports.update = (req, res) =>{
+    const newVideo = new Video(req.body)
+    locale = (JSON.stringify(req.headers['locale']))
+    newVideo.locale= (locale === undefined) ? "en" :(JSON.stringify(req.headers['locale'])).replace(/^"|"$/g, '') 
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Category.update(req.params.id, new Category(req.body), (err, category) =>{
-            if (err)
-            res.send(err)
-            res.json({ success:true, message: 'Category successfully updated' });
+        Video.update(req.params.id, newVideo, (err, video) =>{
+            if (err){
+                return res.send(err)
+            }else{
+                 return res.status(200).send(video);
+            }
         })
     }
-  
 }
 
-
-exports.delete = (req, res) =>{
-    Video.delete( req.params.id, (err, product) =>{
-    if (err){res.send(err)}
-    else{
-        if(product.affectedRows>0){
-        res.json({ success:true, message: 'Product  deleted', data:  product})
-        }else{
-            res.json({ error:false, message: 'No records found'})
+exports.deleteByID = (req, res) =>{
+  Video.deleteByID( req.params.id, (err, video) =>{
+    if (err) {
+        if (err.kind === "not_found") {
+            res.status(404).send({ error:false, message: 'No recort found'})
+        } else {
+          res.status(500).send({ error:false, message: 'Could not delete'});
         }
-    }   
+      } else res.status(200).send({ success:true, message: 'Video deleted'});
   })
-}  */
+}

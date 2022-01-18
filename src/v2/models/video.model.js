@@ -2,16 +2,16 @@ const dbConn = require('../../../config/db.config');
 
 
 const Video = function (video) {
+    this.title = video.title
+    this.description = video.description
     this.type = video.type
     this.thumbnail = video.thumbnail
     this.views = video.views
     this.active = video.active
     this.archived = video.archived
+    this.video_url = video.video_url
     this.refrence_type = video.refrence_type
-    this.translation_type = video.translation_type
     this.locale = video.locale
-    this.value = video.value
-    this.refrence_type = video.refrence_type
     this.created_at = new Date()
     this.updated_at = new Date()
 }
@@ -20,36 +20,49 @@ const Video = function (video) {
     const videoData = {
         type:video.type,
         views :video.views,
-        thumbnail: video.filename,
+        thumbnail: video.thumbnail,
         active : video.active,
         archived : video.archived,
+        video_url : video.video_url,
         created_at: new Date(),
         updated_at: new Date()
     }
 
-    dbConn.query("INSERT INTO videos set ?", videoData, function (err, res) {
+    dbConn.query("INSERT INTO videos set ?", videoData, function (err, vRes) {
         if (err) {
             result(err, null);
         }
-        else {
-            //result(null, res.insertId)
-            const translationData = {
-                translation_type: video.translation_type,
-                refrence_type: video.refrence_type,
-                locale: video.locale,
-                value: video.value,
-                reference_id: res.insertId,
-                created_at: new Date(),
-                updated_at: new Date()
+        else{
+            const transData = [
+                {   translation_type: 'title',
+                    reference_type: 'videos',
+                    locale: video.locale,
+                    value: video.title,
+                    reference_id: vRes.insertId,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                },
+                {   translation_type: 'description',
+                    reference_type: 'videos',
+                    locale: video.locale,
+                    value: video.description,
+                    reference_id: vRes.insertId,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                }
+            ]
+            for(let i = 0; i < transData.length; i++){
+                let post  = transData[i]
+                dbConn.query('INSERT INTO translations SET ?', post, function(err, res) {
+                    if (err) {
+                        console.log("error: ", err);
+                        result(err, null);
+                        return;
+                      }
+                      let {  created_at,updated_at,locale,archived, ...all} = video
+                       result(null, { id: vRes.insertId, ...all });
+                });
             }
-            dbConn.query("INSERT INTO translations set ?", translationData, function (err, res) {
-                if (err) {
-                    result(err, null);
-                }
-                else {
-                    result(null, res.insertId)
-                }
-            })
         }
     })
 }
@@ -79,35 +92,72 @@ Video.findAll = (type,lang,result) => {
     })
 }
 
-/* Video.update = (id, products, result) => {
-    console.log(category)
-  dbConn.query("UPDATE categories SET active=?,parent_id=? WHERE id = ?", [category.active,category.parent_id, id],  (err, res) =>{
-        if(err) {
-            result(null, err)
-        }else{  
-            console.log('else') 
-            dbConn.query("UPDATE translations SET translation_type=?,refrence_type=? ,locale=? ,value=? WHERE reference_id = ?", 
-            [category.translation_type,category.refrence_type,category.locale,category.value, id],  (err, res) =>{
-                if(err) {
-                    result(null, err)
-                }else{   
-                    console.log('right') 
+Video.update = (id, video, result) => {
+   
+    dbConn.query("UPDATE videos SET active=?,type=?,thumbnail=?,views=? ,video_url=? WHERE id = ?", [video.active,video.type,video.thumbnail,video.views,video.video_url, id],  (err, res) =>{
+          if(err) {
+              return result(null, err)
+          }else{  
+              const transData = [
+                  {   translation_type: 'title',
+                      reference_type: 'videos',
+                      locale: video.locale,
+                      value: video.title,
+                      reference_id: id,
+                  },
+                  {   translation_type: 'description',
+                      reference_type: 'videos',
+                      locale: video.locale,
+                      value: video.description,
+                      reference_id: id,
+                  }
+              ]
+             for(let i = 0; i < transData.length; i++){
+                  let update  = transData[i]
+                  let updateQuery  = "update translations SET value='"+update.value+"' WHERE reference_id = "+id+ " AND  reference_type = 'videos' AND locale = '"+update.locale+"' AND translation_type='"+update.translation_type+"' " 
+   
+                  dbConn.query(updateQuery, function(err, res) {
+                      if (err) {
+                          console.log("error: ", err);
+                          result(null, err);
+                          return;
+                        }
+                        if (res.affectedRows == 0) {
+                          // not found Tutorial with the id
+                          result({ message: "Not update" }, null);
+                          return;
+                        }
+                        let {  created_at,updated_at,locale,archived, ...all} = video
+                        result(null, { id: id, ...all });
+                      
+                  });
+              }
+          }
+      }); 
+  };
+  Video.deleteByID = (id, result)=>{
+      const query = "DELETE FROM videos WHERE id ="+id
+       dbConn.query(query,  (err, res)=> {
+          if(err) {
+              return result(null, err);
+          }
+          else{
+              const trans = `DELETE FROM translations WHERE reference_id =${id} AND reference_type= "videos"`
+              dbConn.query(trans,  (err, res)=> {
+                  if (err) {
+                      console.log("error: ", err);
+                      result(null, err);
+                      return;
+                    }
+                    if (res.affectedRows == 0) {
+                      result({ kind: "not_found" }, null);
+                      return;
+                    }
                     result(null, res);
-                }
-            })
-        }
-    }); 
-};
-Video.delete = (id, result)=>{
-     dbConn.query("DELETE products, translations FROM products INNER JOIN translations ON products.id = translations.reference_id WHERE products.id= ?", [id],  (err, res)=> {
-        if(err) {
-            result(null, err);
-        }
-        else{
-            //console.log(res.affectedRows)
-            result(null, res);
-        }
-    })
-}  */
+              })
+          }
+      })
+  } 
+  
 
 module.exports = Video

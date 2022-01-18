@@ -150,12 +150,16 @@ Category.deleteByID = (id, result)=>{
         else{
             const trans = `DELETE FROM translations WHERE reference_id =${id} AND reference_type= "categories"`
             dbConn.query(trans,  (err, res)=> {
-                if(err) {
-                   return  result(null, err);
-                }
-                else{
-                    result(null, res);
-                }
+                if (err) {
+                    console.log("error: ", err);
+                    result(null, err);
+                    return;
+                  }
+                  if (res.affectedRows == 0) {
+                    result({ kind: "not_found" }, null);
+                    return;
+                  }
+                  result(null, res);
             })
         }
     })

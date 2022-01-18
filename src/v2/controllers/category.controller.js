@@ -80,14 +80,20 @@ exports.update = (req, res) =>{
             }
         })
     }
-  
 }
-
 
 exports.deleteByID = (req, res) =>{
   Category.deleteByID( req.params.id, (err, category) =>{
-    if (err){return res.send(err);}
-    
-    res.json({ success:true, message: 'Category  deleted'});
+    if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not record found with id ${req.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Could not delete category with id " + req.params.id
+          });
+        }
+      } else res.status(200).send({ message: `Category deleted with id ${req.params.id}` });
   })
 }
