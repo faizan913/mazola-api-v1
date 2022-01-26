@@ -36,7 +36,6 @@ exports.findAll = (req, res)=> {
     
     var locale = (JSON.stringify(req.headers['locale']))
     let lang = (locale === undefined) ? "\"en\"" :locale  
-    console.log(lang,req.params.id)
     CMS.findById(lang,req.params.id, (err, cms)=> {
         if (err) { res.send(err) 
         } else {

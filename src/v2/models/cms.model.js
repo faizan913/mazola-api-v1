@@ -28,7 +28,6 @@ CMS.create = function (cms, result) {
         created_at: new Date(),
         updated_at: new Date()
     } 
-console.log(cmsData)
     dbConn.query("INSERT INTO cms set ?", cmsData, function (err, cmsres) {
         if (err) {
             result(err, null);
@@ -80,7 +79,7 @@ console.log(cmsData)
 }
 
 CMS.findById =  (locale,id, result)=> {
-    const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "title" and t.locale = '+locale+')as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "description" and t.locale = '+locale+')as "description"  , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "content" and t.locale = '+locale+')as "content",c.featured_image,c.images,c.type,c.template,c.meta_url FROM cms c where c.id='+id
+    const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "title" and t.locale = '+locale+')as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "description" and t.locale = '+locale+')as "description"  , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "content" and t.locale = '+locale+')as "content", (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "images" and t.locale = '+locale+')as "images", c.featured_image,c.type,c.template FROM cms c where c.id='+id
     dbConn.query(query,  (err, res)=> {             
         if(err) {
            return result(err, null);
@@ -91,7 +90,7 @@ CMS.findById =  (locale,id, result)=> {
     })   
 }  
 CMS.findAll = (locale,result) => {
-    const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "title" and t.locale = "en")as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "description" and t.locale = "en")as "description"  , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "content" and t.locale = "en")as "content", c.featured_image,c.images,c.type,c.template FROM cms c'
+    const query = 'SELECT c.id,(select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "title" and t.locale = '+locale+')as "title" , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "description" and t.locale = '+locale+')as "description"  , (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "content" and t.locale = '+locale+')as "content", (select t.value from translations t where t.reference_id = c.id AND t.reference_type = "cms" and t.translation_type = "images" and t.locale = '+locale+')as "images", c.featured_image,c.type,c.template FROM cms c'
     dbConn.query(query, (err, res) => {
         if (err) {
             result(null, err)

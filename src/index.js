@@ -9,13 +9,13 @@ const homeRouter = require('./routes/home.routes')
 var cors = require('cors')
 
 const app = express() // create express app
-const port = process.env.PORT||4000
+const port = process.env.PORT || 4000
 app.use(express.json())
 app.use(cors())
 headers= {
   "Access-Control-Allow-Headers" : "*",
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,POST,PUT"
+  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE"
 }
 app.use(function(req, res, next) {
   res.header(headers);  
